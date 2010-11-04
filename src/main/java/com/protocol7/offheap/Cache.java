@@ -67,7 +67,7 @@ public class Cache {
         map.put(key, new MemoryRange(buffers.size(), pos, length));
     }
 
-    public Serializable get(String key) throws IOException, ClassNotFoundException {
+    public Serializable get(String key) throws IOException {
         MemoryRange range = map.get(key);
         
         byte[] bytes2 = new byte[range.getLength()];
@@ -79,6 +79,10 @@ public class Cache {
         
         ByteArrayInputStream bais = new ByteArrayInputStream(bytes2);
         ObjectInputStream ois = new ObjectInputStream(bais);
-        return (Serializable) ois.readObject();
+        try {
+            return (Serializable) ois.readObject();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

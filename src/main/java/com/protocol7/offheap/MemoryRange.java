@@ -8,6 +8,7 @@ public class MemoryRange {
     private int start;
     private int length;
     public MemoryRange(int buffer, int start, int length) {
+        this.buffer = buffer;
         this.start = start;
         this.length = length;
     }
